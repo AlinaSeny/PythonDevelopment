@@ -3,6 +3,19 @@ import os
 import zlib
 
 
+def tree_parse(tree):
+	f = open(path + '/.git/objects/' + tree[:2] + '/' + tree[2:], 'rb')
+	data = zlib.decompress(f.read()).partition(b'\00')[2]
+	f.close()
+	while data:
+		name = data.partition(b'\00')[0].split(b' ')[-1].decode()
+		id = data.partition(b'\00')[2][:20].hex()
+		f = open(path + '/.git/objects/' + id[0:2] + '/' + id[2:], 'rb')
+		type = zlib.decompress(f.read()).partition(b' ')[0].decode()
+		data = data.partition(b'\00')[2][20:]
+		f.close()
+		print(f'{type} {id}\t{name}')
+
 if len(sys.argv) == 1:
 	print("Expected 1 or 2 arguments")
 	sys.exit(1)
@@ -26,17 +39,9 @@ else:
 			print(body.decode())
 			f.close()
 			body = body.split(b'\n')
-			id = body[0].decode().split(' ')[1]
-			f = open(path + '/.git/objects/' + id[:2] + '/' + id[2:], 'rb')
-			tmp = zlib.decompress(f.read())
-			data = tmp.partition(b'\00')[2][20:]
-			f.close()
-			while data:
-				name = data.partition(b'\00')[0].split(b' ')[-1].decode()
-				id = data.partition(b'\00')[2][:20].hex()
-				f = open(path + '/.git/objects/' + id[0:2] + '/' + id[2:], 'rb')
-				type = zlib.decompress(f.read()).partition(b' ')[0].decode()
-				data = data.partition(b'\00')[2][20:]
-				f.close()
-				print(f'{type} {id}\t{name}')
+			while body:
+				print(f'TREE for commit {last_com[:-1]}')
+				tree_parse(body[0].decode().split(' ')[1])
+
+
 
