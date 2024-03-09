@@ -23,7 +23,7 @@ def addmon(name, x, y, hello):
 
 
 def encounter(x, y):
-    print(cowsay.cowsay(mon_coord[(x,y)]))
+    print(cowsay.cowsay(mon_coord[(x,y)][1], cow=mon_coord[(x,y)][0]))
 
 
 def up():
