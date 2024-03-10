@@ -104,10 +104,35 @@ def func(cmd):
             right()
         else:
             print("Invalid command")
-    elif len(cmd) == 5:
-        if cmd[0] == 'addmon' and '0' <= cmd[2] <= '9' and '0' <= cmd[3] <= '9':
-            addmon(cmd[1], int(cmd[2]), int(cmd[3]), cmd[4])
-        else:
+    elif len(cmd) == 9 and cmd[0] == 'addmon':
+        name = cmd[1]
+        hello = False
+        hp = False
+        x = False
+        y = False
+        par = cmd[2:]
+        for i in len(par):
+            if par[i] == 'hello':
+                i += 1
+                hello = par[i]
+            elif par[i] == 'hp':
+                i += 1
+                if par[i].isdigit() and int(par[i]) > 0:
+                    hp = par[i]
+                else:
+                    break
+            elif par[i] == 'coords':
+                if (par[i + 1].isdigit() and int(par[i + 1]) >= 0 and int(par[i + 1]) <= 9
+                        and par[i + 2].isdigit() and int(par[i + 2]) >= 0 and int(par[i + 2]) <= 9):
+                    hp = par[i]
+                    x = par[i + 1]
+                    y = par[i + 2]
+                    i += 2
+                else:
+                    break
+            else:
+                break
+        if not (hello and hp and x and y):
             print("Invalid arguments")
     else:
         print("Invalid command")
