@@ -1,16 +1,35 @@
 import sys
 import cowsay
+import io
 
 
-start = [0,0]
-cur = [0,0]
+jgsbat = cowsay.read_dot_cow(io.StringIO('''
+$the_cow = <<EOC;
+         $thoughts
+          $thoughts
+    ,_                    _,
+    ) '-._  ,_    _,  _.-' (
+    )  _.-'.|\\--//|.'-._  (
+     )'   .'\/o\/o\/'.   `(
+      ) .' . \====/ . '. (
+       )  / <<    >> \  (
+        '-._/``  ``\_.-'
+  jgs     __\\'--'//__
+         (((""`  `"")))
+EOC
+'''))
+
+
+start = [0, 0]
+cur = [0, 0]
 mon_coord = {}
+custom_mon = {'jgsbat' : jgsbat}
 xlen = 10
 ylen = 10
 
 
 def addmon(name, x, y, hello):
-    if name not in cowsay.list_cows():
+    if name not in cowsay.list_cows() and name not in custom_mon:
         print("Cannot add unknown monster")
         return
     repl = 0
@@ -23,7 +42,10 @@ def addmon(name, x, y, hello):
 
 
 def encounter(x, y):
-    print(cowsay.cowsay(mon_coord[(x,y)][1], cow=mon_coord[(x,y)][0]))
+    if mon_coord[(x,y)][0] in cowsay.list_cows():
+        print(cowsay.cowsay(mon_coord[(x, y)][1], cow=mon_coord[(x, y)][0]))
+    elif mon_coord[(x,y)][0] in custom_mon:
+        print(cowsay.cowsay(mon_coord[(x, y)][1], cowfile=custom_mon[mon_coord[(x, y)][0]]))
 
 
 def up():
