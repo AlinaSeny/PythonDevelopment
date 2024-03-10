@@ -1,5 +1,6 @@
 import sys
 import cowsay
+import shlex
 import io
 
 
@@ -89,7 +90,7 @@ def right():
 
 
 def func(cmd):
-    cmd = cmd.split()
+    cmd = shlex.split(cmd)
     cmd = [i for i in cmd if i]
     if len(cmd) == 1:
         cmd = cmd[0]
