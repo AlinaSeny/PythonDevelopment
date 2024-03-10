@@ -112,7 +112,7 @@ def func(cmd):
         print("Invalid command")
 
 
-
+print("<<< Welcome to Python-MUD 0.1 >>>")
 if len(sys.argv) != 1:
     f = open(sys.argv[2], 'r')
     lines = f.getlines()
