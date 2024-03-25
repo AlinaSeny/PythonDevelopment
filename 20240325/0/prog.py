@@ -1,1 +1,2 @@
-import shlex
+import socket
+print(socket.gethostbyname(socket.gethostname()))
